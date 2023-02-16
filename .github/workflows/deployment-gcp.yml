@@ -14,10 +14,10 @@ on:
           - 'production'
 
 env:
-  PROJECT_ID: serverpod # TODO: update Google Cloud project id
-  GAR_LOCATION: asia-south1 # TODO: update Artifact Registry location
-  REPOSITORY: serverpod-docker-repo # TODO: update Artifact Registry repository name
-  REGION: asia-south1 # TODO: update Cloud Run service region
+  PROJECT_ID: terraform-test-377910 # TODO: update Google Cloud project id
+  GAR_LOCATION: us-central1 # TODO: update Artifact Registry location
+  REPOSITORY: serverpod-containers # TODO: update Artifact Registry repository name
+  REGION: us-central1 # TODO: update Cloud Run service region
 
 
 
