@@ -1,0 +1,28 @@
+ARG mode=development
+
+FROM dart:stable AS build
+ARG mode
+RUN echo "Building image in ${mode} mode"
+
+WORKDIR /app
+COPY . .
+
+RUN  dart pub get
+RUN dart compile exe bin/main.dart -o bin/main
+
+FROM scratch
+
+COPY --from=build /runtime/ /
+COPY --from=build /app/bin/main /app/bin/main
+COPY --from=build /app/config/ config/
+COPY --from=build /app/generated/ generated/
+COPY --from=build /app/web/ web/
+
+ARG mode
+ENV runmode=$mode
+
+EXPOSE 8080
+EXPOSE 8081
+EXPOSE 8082 
+
+CMD ["app/bin/main",  "--mode", "${runmode}"]

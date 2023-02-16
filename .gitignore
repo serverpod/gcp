@@ -1,0 +1,7 @@
+gcp_flutter/android
+gcp_flutter/ios
+gcp_flutter/linux
+gcp_flutter/macos
+gcp_flutter/windows
+terraform-provider-google_v4.51.0_x5
+credentials.json
