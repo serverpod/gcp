@@ -41,7 +41,7 @@ jobs:
         run: echo "TARGET=${GITHUB_REF##*-}" >> $GITHUB_ENV
 
       - name: Set Image Name
-        run: echo "IMAGE_NAME=$(echo ${GITHUB_REPOSITORY##*/}_${GITHUB_REF##*/}_$TARGET | sed 's/[^a-zA-Z0-9]/_/g')" >> $GITHUB_ENV
+        run: echo "IMAGE_NAME=$(echo ${GITHUB_REPOSITORY##*/}_$TARGET | sed 's/[^a-zA-Z0-9]/_/g')" >> $GITHUB_ENV
 
       - name: Set Service Name
         run: echo "SERVICE_NAME=$(echo $IMAGE_NAME | sed 's/[^a-zA-Z0-9]/-/g')" >> $GITHUB_ENV
@@ -78,16 +78,16 @@ jobs:
       - name: Push Docker image
         run: docker push ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/$IMAGE_NAME
 
-      - id: deploy
-        name: Deploy Docker image to cloud run
-        uses: "google-github-actions/deploy-cloudrun@v0"
-        with:
-          image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}
-          region: ${{ env.REGION }}
-          service: ${{ env.SERVICE_NAME }}
-          flags:
-            --port=8080
-            --allow-unauthenticated
-
-      - name: "Use output"
-        run: 'curl "${{ steps.deploy.outputs.url }}"'
+      # - id: deploy
+      #   name: Deploy Docker image to cloud run
+      #   uses: "google-github-actions/deploy-cloudrun@v0"
+      #   with:
+      #     image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}
+      #     region: ${{ env.REGION }}
+      #     service: ${{ env.SERVICE_NAME }}
+      #     flags:
+      #       --port=8080
+      #       --allow-unauthenticated
+      #
+      # - name: "Use output"
+      #   run: 'curl "${{ steps.deploy.outputs.url }}"'
