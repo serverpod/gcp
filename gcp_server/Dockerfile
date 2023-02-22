@@ -25,4 +25,4 @@ EXPOSE 8080
 EXPOSE 8081
 EXPOSE 8082 
 
-CMD ["app/bin/main",  "--mode", "${runmode}"]
+CMD ["app/bin/main",  "--mode", "${mode}"]
