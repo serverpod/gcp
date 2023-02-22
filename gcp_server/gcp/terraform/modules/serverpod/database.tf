@@ -11,10 +11,10 @@ resource "google_sql_database_instance" "serverpod" {
     # depends_on = [google_service_networking_connection.private-vpc-connection]
 
     ip_configuration {
-      ipv4_enabled                                  = true
-      private_network                               = google_compute_network.serverpod.id
+      ipv4_enabled    = true
+      private_network = google_compute_network.serverpod.id
 
-    #   enable_private_path_for_google_cloud_services = true
+      #   enable_private_path_for_google_cloud_services = true
     }
   }
 
@@ -22,7 +22,7 @@ resource "google_sql_database_instance" "serverpod" {
 }
 
 resource "google_sql_database" "serverpod" {
-  name     = "examplepod"
+  name     = "serverpod"
   instance = google_sql_database_instance.serverpod.name
 }
 

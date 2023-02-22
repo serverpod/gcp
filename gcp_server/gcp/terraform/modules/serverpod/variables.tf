@@ -1,3 +1,7 @@
+variable "project" {
+  type = string
+}
+
 variable "runmode" {
   type    = string
   default = "production"
@@ -41,5 +45,5 @@ variable "machine_type" {
 }
 
 variable "database_password" {
-    type = string
+  type = string
 }

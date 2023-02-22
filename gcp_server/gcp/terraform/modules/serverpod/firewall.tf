@@ -1,8 +1,8 @@
 resource "google_compute_firewall" "serverpod-instance" {
   name = "serverpod-${var.runmode}-instance"
 
-#   network       = "default"
-  network = google_compute_network.serverpod.name
+  #   network       = "default"
+  network       = google_compute_network.serverpod.name
   source_ranges = ["0.0.0.0/0"]
 
   allow {

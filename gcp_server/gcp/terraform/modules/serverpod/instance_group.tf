@@ -11,7 +11,11 @@ resource "google_compute_instance_template" "serverpod" {
   # Specify the startup script to run the Docker container
   metadata_startup_script = <<-EOF
       #!/bin/bash
-      docker run -d -p 8080:8080 gcr.io/google-samples/hello-app:1.0
+      useradd serverpod-user
+      usermod -aG docker serverpod-user
+      cd /home/serverpod-user
+      sudo -u serverpod-user docker-credential-gcr configure-docker --registries ${var.region}-docker.pkg.dev
+      sudo -u serverpod-user docker run -p 8080-8082:8080-8082 -e runmode='production' ${var.region}-docker.pkg.dev/${var.project}/serverpod-containers/gcp_${var.runmode}:latest
     EOF
 
   network_interface {

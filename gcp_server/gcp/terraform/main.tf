@@ -18,10 +18,11 @@ provider "google" {
 module "serverpod_production" {
   source = "./modules/serverpod"
 
+  project = var.project
   runmode = "production"
 
   region = var.region
-  zone = var.zone
+  zone   = var.zone
 
   top_domain = "examplepod.com"
 
@@ -35,12 +36,13 @@ module "serverpod_production" {
 
 module "serverpod_staging" {
   source = "./modules/serverpod"
-  count = var.enable_staging ? 1 : 0
+  count  = var.enable_staging ? 1 : 0
 
+  project = var.project
   runmode = "staging"
 
   region = var.region
-  zone = var.zone
+  zone   = var.zone
 
   top_domain = "examplepod.com"
 

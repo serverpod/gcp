@@ -3,22 +3,22 @@ variable "project" {
 }
 
 variable "region" {
-  type = string
+  type    = string
   default = "us-central1"
 }
 
 variable "zone" {
-  type = string
+  type    = string
   default = "us-central1-c"
 }
 
 variable "autoscaling_min_size" {
-  type = number
+  type    = number
   default = 1
 }
 
 variable "autoscaling_max_size" {
-  type = number
+  type    = number
   default = 1
 }
 
@@ -28,7 +28,7 @@ variable "service_account_email" {
 }
 
 variable "enable_staging" {
-  type = bool
+  type    = bool
   default = false
 }
 
