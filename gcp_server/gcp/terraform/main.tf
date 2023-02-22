@@ -15,12 +15,39 @@ provider "google" {
   zone    = var.zone
 }
 
-resource "google_compute_network" "default" {
-  name = "serverpod-network"
+module "serverpod_production" {
+  source = "./modules/serverpod"
+
+  runmode = "production"
+
+  region = var.region
+  zone = var.zone
+
+  top_domain = "examplepod.com"
+
+  autoscaling_min_size = var.autoscaling_min_size
+  autoscaling_max_size = var.autoscaling_max_size
+
+  service_account_email = var.service_account_email
+
+  database_password = var.DATABASE_PASSWORD_PRODUCTION
 }
 
-resource "google_artifact_registry_repository" "my-repo" {
-  location      = var.region
-  repository_id = "serverpod-containers"
-  format        = "DOCKER"
+module "serverpod_staging" {
+  source = "./modules/serverpod"
+  count = var.enable_staging ? 1 : 0
+
+  runmode = "staging"
+
+  region = var.region
+  zone = var.zone
+
+  top_domain = "examplepod.com"
+
+  autoscaling_min_size = var.autoscaling_min_size
+  autoscaling_max_size = var.autoscaling_max_size
+
+  service_account_email = var.service_account_email
+
+  database_password = var.DATABASE_PASSWORD_STAGING
 }
