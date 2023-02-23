@@ -9,6 +9,7 @@ RUN dart compile exe bin/main.dart -o bin/main
 FROM busybox
 
 ENV runmode=development
+ENV serverid=default
 
 COPY --from=build /runtime/ /
 COPY --from=build /app/bin/main /app/bin/main
@@ -20,4 +21,4 @@ EXPOSE 8080
 EXPOSE 8081
 EXPOSE 8082 
 
-CMD app/bin/main --mode $runmode
+CMD app/bin/main --mode $runmode --server-id $serverid
