@@ -46,6 +46,16 @@ resource "google_compute_instance_group_manager" "serverpod" {
     name = "api"
     port = 8080
   }
+
+  named_port {
+    name = "insights"
+    port = 8081
+  }
+
+  named_port {
+    name = "web"
+    port = 8082
+  }
 }
 
 resource "google_compute_autoscaler" "serverpod" {
