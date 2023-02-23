@@ -41,7 +41,7 @@ jobs:
         run: echo "TARGET=${GITHUB_REF##*-}" >> $GITHUB_ENV
 
       - name: Set repository
-        run: echo "serverpod-${{ env.TARGET }}-container" >> $GITHUB_ENV
+        run: echo "REPOSITORY=serverpod-${{ env.TARGET }}-container" >> $GITHUB_ENV
 
       - name: Set Image Name
         run: echo "IMAGE_NAME=$(echo ${GITHUB_REPOSITORY##*/}_$TARGET | sed 's/[^a-zA-Z0-9]/_/g')" >> $GITHUB_ENV
