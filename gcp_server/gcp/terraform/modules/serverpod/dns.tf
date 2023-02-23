@@ -37,3 +37,11 @@ resource "google_dns_record_set" "database-private" {
   ttl          = 60
   rrdatas      = [google_sql_database_instance.serverpod.private_ip_address]
 }
+
+resource "google_dns_record_set" "redis-private" {
+  name         = "redis-${var.runmode}-private.${var.top_domain}."
+  managed_zone = "examplepod"
+  type         = "A"
+  ttl          = 60
+  rrdatas      = [google_sql_database_instance.serverpod.private_ip_address]
+}

@@ -34,6 +34,6 @@ database:
 
 # This is the setup for Redis.
 redis:
-  enabled: false
-  host: redis.examplepod.com
+  enabled: true
+  host: redis-production-private.examplepod.com
   port: 6379
