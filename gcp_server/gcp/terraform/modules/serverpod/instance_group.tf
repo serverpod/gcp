@@ -15,7 +15,7 @@ resource "google_compute_instance_template" "serverpod" {
       usermod -aG docker serverpod-user
       cd /home/serverpod-user
       sudo -u serverpod-user docker-credential-gcr configure-docker --registries ${var.region}-docker.pkg.dev
-      sudo -u serverpod-user docker run -p 8080-8082:8080-8082 -e runmode='production' ${var.region}-docker.pkg.dev/${var.project}/serverpod-containers/gcp_${var.runmode}:latest
+      sudo -u serverpod-user docker run -p 8080-8082:8080-8082 -e runmode=${var.runmode} -e serverid=$(hostname) ${var.region}-docker.pkg.dev/${var.project}/serverpod-${var.runmode}-container/serverpod:latest
     EOF
 
   network_interface {
