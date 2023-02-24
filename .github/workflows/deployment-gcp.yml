@@ -84,7 +84,7 @@ jobs:
 
       - name: Restart servers in instance group
         run: |
-          gcloud compute instance-groups managed rolling-action start-update serverpod-${{ env.TARGET }}-group \
+          gcloud beta compute instance-groups managed rolling-action start-update serverpod-${{ env.TARGET }}-group \
            --project=${{ env.PROJECT }} \
            --type='proactive' \
            --max-surge=1 \
