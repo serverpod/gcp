@@ -31,17 +31,30 @@ resource "google_dns_record_set" "database" {
 }
 
 resource "google_dns_record_set" "database-private" {
-  name         = "database-${var.runmode}-private.${var.top_domain}."
-  managed_zone = "examplepod"
+  name         = "database.private-${var.runmode}.${var.top_domain}."
+  managed_zone = "serverpod-${var.runmode}-private"
   type         = "A"
   ttl          = 60
   rrdatas      = [google_sql_database_instance.serverpod.private_ip_address]
 }
 
 resource "google_dns_record_set" "redis-private" {
-  name         = "redis-${var.runmode}-private.${var.top_domain}."
-  managed_zone = "examplepod"
+  name         = "redis.private-${var.runmode}.${var.top_domain}."
+  managed_zone = "serverpod-${var.runmode}-private"
   type         = "A"
   ttl          = 60
-  rrdatas      = [google_sql_database_instance.serverpod.private_ip_address]
+  rrdatas      = [google_redis_instance.serverpod.host]
+}
+
+resource "google_dns_managed_zone" "private-dns" {
+  name        = "serverpod-${var.runmode}-private"
+  dns_name    = "private-${var.runmode}.${var.top_domain}."
+
+  visibility = "private"
+
+  private_visibility_config {
+    networks {
+      network_url = google_compute_network.serverpod.id
+    }
+  }
 }
