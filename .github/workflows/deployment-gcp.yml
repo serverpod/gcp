@@ -15,12 +15,8 @@ on:
 
 env:
   PROJECT: terraform-test-377910 # TODO: update Google Cloud project id
-  # GAR_LOCATION: us-central1 # TODO: update Artifact Registry location
-  # REPOSITORY: serverpod-containers # TODO: update Artifact Registry repository name
   REGION: us-central1 # TODO: update Cloud Run service region
-  ZONE: us-central1-c
-
-
+  ZONE: us-central1-c # TODO: Template
 
 jobs:
   deploy:
@@ -92,7 +88,9 @@ jobs:
            --min-ready=0 \
            --minimal-action='replace' \
            --replacement-method='substitute' \
-           --version=template=https://www.googleapis.com/compute/beta/projects/${{ env.PROJECT }}/global/instanceTemplates/serverpod-${{ env.TARGET }}-template --zone=${{ env.ZONE }}
+           --version=template=https://www.googleapis.com/compute/beta/projects/${{ env.PROJECT }}/global/instanceTemplates/serverpod-${{ env.TARGET }}-template \
+           --zone=${{ env.ZONE }}
+           --region=${{ env.REGION }}
 
       # - id: deploy
       #   name: Deploy Docker image to cloud run
