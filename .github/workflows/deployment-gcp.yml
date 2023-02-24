@@ -80,16 +80,11 @@ jobs:
 
       - name: Restart servers in instance group
         run: |
-          gcloud beta compute instance-groups managed rolling-action start-update serverpod-${{ env.TARGET }}-group \
+          gcloud beta compute instance-groups managed rolling-action replace serverpod-${{ env.TARGET }}-group \
            --project=${{ env.PROJECT }} \
-           --force \
-           --type='proactive' \
+           --replacement-method='substitute' \
            --max-surge=1 \
            --max-unavailable=1 \
-           --min-ready=0 \
-           --minimal-action='replace' \
-           --replacement-method='substitute' \
-           --version=template=serverpod-${{ env.TARGET }}-templatey \
            --zone=${{ env.ZONE }}
 
       # --version=template=https://www.googleapis.com/compute/beta/projects/${{ env.PROJECT }}/global/instanceTemplates/serverpod-${{ env.TARGET }}-template \
