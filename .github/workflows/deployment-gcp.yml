@@ -18,6 +18,7 @@ env:
   # GAR_LOCATION: us-central1 # TODO: update Artifact Registry location
   # REPOSITORY: serverpod-containers # TODO: update Artifact Registry repository name
   REGION: us-central1 # TODO: update Cloud Run service region
+  ZONE: us-central1-c
 
 
 
@@ -80,6 +81,9 @@ jobs:
 
       - name: Push Docker image
         run: docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT }}/${{ env.REPOSITORY }}/$IMAGE_NAME
+
+      - name: Restart servers in instance group
+        run: gcloud beta compute instance-groups managed rolling-action start-update serverpod-${{ env.TARGET }}-group --project=${{ env.PROJECT }} --type='proactive' --max-surge=1 --max-unavailable=1 --min-ready=0 --minimal-action='replace' --most-disruptive-allowed-action='' --replacement-method='substitute' --version=template=https://www.googleapis.com/compute/beta/projects/${{ env.PROJECT }}/global/instanceTemplates/serverpod-${{ env.TARGET }}-template --zone=${{ env.ZONE }}
 
       # - id: deploy
       #   name: Deploy Docker image to cloud run
