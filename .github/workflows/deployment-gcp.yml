@@ -89,7 +89,7 @@ jobs:
            --minimal-action='replace' \
            --replacement-method='substitute' \
            --version=template=https://www.googleapis.com/compute/beta/projects/${{ env.PROJECT }}/global/instanceTemplates/serverpod-${{ env.TARGET }}-template \
-           --zone=${{ env.ZONE }}
+           --zone=${{ env.ZONE }} \
            --region=${{ env.REGION }}
 
       # - id: deploy
