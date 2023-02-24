@@ -80,7 +80,7 @@ jobs:
 
       - name: Restart servers in instance group
         run: |
-          gcloud beta compute instance-groups managed rolling-action replace serverpod-${{ env.TARGET }}-group \
+          gcloud compute instance-groups managed rolling-action replace serverpod-${{ env.TARGET }}-group \
            --project=${{ env.PROJECT }} \
            --replacement-method='substitute' \
            --max-surge=1 \
