@@ -89,9 +89,10 @@ jobs:
            --min-ready=0 \
            --minimal-action='replace' \
            --replacement-method='substitute' \
-           --version=template=https://www.googleapis.com/compute/beta/projects/${{ env.PROJECT }}/global/instanceTemplates/serverpod-${{ env.TARGET }}-template \
+           --version=template=serverpod-${{ env.TARGET }}-template \
            --zone=${{ env.ZONE }}
 
+      # --version=template=https://www.googleapis.com/compute/beta/projects/${{ env.PROJECT }}/global/instanceTemplates/serverpod-${{ env.TARGET }}-template \
       # - id: deploy
       #   name: Deploy Docker image to cloud run
       #   uses: "google-github-actions/deploy-cloudrun@v0"
