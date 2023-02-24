@@ -82,6 +82,7 @@ jobs:
         run: |
           gcloud beta compute instance-groups managed rolling-action start-update serverpod-${{ env.TARGET }}-group \
            --project=${{ env.PROJECT }} \
+           --force \
            --type='proactive' \
            --max-surge=1 \
            --max-unavailable=1 \
