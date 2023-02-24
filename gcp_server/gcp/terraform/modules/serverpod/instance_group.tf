@@ -56,6 +56,11 @@ resource "google_compute_instance_group_manager" "serverpod" {
     name = "web"
     port = 8082
   }
+
+  auto_healing_policies {
+    health_check      = google_compute_health_check.serverpod-instance-group.id
+    initial_delay_sec = 300
+  }
 }
 
 resource "google_compute_autoscaler" "serverpod" {
@@ -71,5 +76,17 @@ resource "google_compute_autoscaler" "serverpod" {
     cpu_utilization {
       target = 0.6
     }
+  }
+}
+
+resource "google_compute_health_check" "serverpod-instance-group" {
+  name               = "serverpod-${var.runmode}-group-health-check"
+  timeout_sec        = 5
+  check_interval_sec = 30
+  healthy_threshold   = 2
+  unhealthy_threshold = 3
+
+  tcp_health_check {
+    port = "8080"
   }
 }
