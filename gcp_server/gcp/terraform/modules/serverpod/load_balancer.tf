@@ -54,6 +54,20 @@ resource "google_compute_target_http_proxy" "web" {
   # ssl_certificates = [google_compute_managed_ssl_certificate.api.id]
 }
 
+resource "google_compute_global_forwarding_rule" "storage" {
+  name                  = "serverpod-${var.runmode}-storage"
+  ip_protocol           = "TCP"
+  load_balancing_scheme = "EXTERNAL"
+  port_range            = "80"
+  target                = google_compute_target_http_proxy.storage.self_link
+}
+
+resource "google_compute_target_http_proxy" "storage" {
+  name    = "serverpod-${var.runmode}-proxy-storage"
+  url_map = google_compute_url_map.serverpod.id
+  # ssl_certificates = [google_compute_managed_ssl_certificate.api.id]
+}
+
 resource "google_compute_url_map" "serverpod" {
   name            = "serverpod-${var.runmode}-balancer"
   default_service = google_compute_backend_service.web.id
@@ -66,11 +80,6 @@ resource "google_compute_url_map" "serverpod" {
   path_matcher {
     name            = "api"
     default_service = google_compute_backend_service.api.id
-
-    # path_rule {
-    #   paths   = ["/*"]
-    #   service = google_compute_region_backend_service.default.id
-    # }
   }
 
   host_rule {
@@ -81,11 +90,16 @@ resource "google_compute_url_map" "serverpod" {
   path_matcher {
     name            = "insights"
     default_service = google_compute_backend_service.insights.id
+  }
 
-    # path_rule {
-    #   paths   = ["/*"]
-    #   service = google_compute_region_backend_service.default.id
-    # }
+  host_rule {
+    hosts        = ["storage.${var.top_domain}"]
+    path_matcher = "storage"
+  }
+
+  path_matcher {
+    name            = "storage"
+    default_service = google_compute_backend_bucket.storage.id
   }
 }
 
@@ -135,6 +149,12 @@ resource "google_compute_backend_service" "web" {
   health_checks = [google_compute_health_check.serverpod-balancer.id]
 
   port_name = "web"
+}
+
+resource "google_compute_backend_bucket" "storage" {
+  name        = "serverpod-${var.runmode}-backend-storage"
+  bucket_name = google_storage_bucket.public.name
+  enable_cdn  = false
 }
 
 resource "google_compute_health_check" "serverpod-balancer" {

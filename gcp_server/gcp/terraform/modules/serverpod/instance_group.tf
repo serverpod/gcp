@@ -80,9 +80,9 @@ resource "google_compute_autoscaler" "serverpod" {
 }
 
 resource "google_compute_health_check" "serverpod-instance-group" {
-  name               = "serverpod-${var.runmode}-group-health-check"
-  timeout_sec        = 5
-  check_interval_sec = 30
+  name                = "serverpod-${var.runmode}-group-health-check"
+  timeout_sec         = 5
+  check_interval_sec  = 30
   healthy_threshold   = 2
   unhealthy_threshold = 3
 

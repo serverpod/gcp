@@ -16,6 +16,43 @@ class ExampleEndpoint extends Endpoint {
   // supported. The `session` object provides access to the database, logging,
   // passwords, and information about the request being made to the server.
   Future<String> hello(Session session, String name) async {
-    return 'Hello $name';
+    var uploadDescription =
+        await session.storage.createDirectFileUploadDescription(
+      storageId: 'public',
+      path: 'testfile.bin',
+    );
+
+    print('uploadDescription: $uploadDescription');
+
+    var exists = await session.storage
+        .fileExists(storageId: 'public', path: 'testfile.bin');
+    print('File already exists: $exists');
+
+    var file = await session.storage
+        .retrieveFile(storageId: 'public', path: 'testfile.bin');
+    print('retrieved: ${file?.lengthInBytes}');
+
+    if (file != null) {
+      await session.storage.storeFile(
+        storageId: 'public',
+        path: 'testfile2.bin',
+        byteData: file,
+      );
+
+      await session.storage.storeFile(
+        storageId: 'private',
+        path: 'testfile.bin',
+        byteData: file,
+      );
+    }
+
+    return uploadDescription!;
+  }
+
+  Future<bool> verifyUpload(Session session) async {
+    return await session.storage.verifyDirectFileUpload(
+      storageId: 'public',
+      path: 'testfile.bin',
+    );
   }
 }

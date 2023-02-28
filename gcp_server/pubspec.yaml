@@ -8,6 +8,9 @@ environment:
 
 dependencies:
   serverpod: ^1.0.1
+  serverpod_cloud_storage_gcp:
+    path: ../serverpod_cloud_storage_gcp
+
 
 dev_dependencies:
   lints: ^2.0.0

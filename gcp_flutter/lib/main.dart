@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:gcp_client/gcp_client.dart';
 import 'package:flutter/material.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
@@ -51,7 +53,17 @@ class MyHomePageState extends State<MyHomePage> {
   // is successful.
   void _callHello() async {
     try {
-      final result = await client.example.hello(_textEditingController.text);
+      final uploadDescription =
+          await client.example.hello(_textEditingController.text);
+
+      var buffer = Int8List(64);
+      var byteData = ByteData.view(buffer.buffer);
+
+      var uploader = FileUploader(uploadDescription);
+      var fileUploaded = await uploader.uploadByteData(byteData);
+      print('File uploaded: $fileUploaded');
+      var result = '${await client.example.verifyUpload()}';
+
       setState(() {
         _resultMessage = result;
       });

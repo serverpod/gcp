@@ -22,6 +22,12 @@ class _EndpointExample extends _i1.EndpointRef {
         'hello',
         {'name': name},
       );
+
+  _i2.Future<bool> verifyUpload() => caller.callServerEndpoint<bool>(
+        'example',
+        'verifyUpload',
+        {},
+      );
 }
 
 class Client extends _i1.ServerpodClient {
