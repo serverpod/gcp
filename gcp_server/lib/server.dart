@@ -1,8 +1,8 @@
 import 'package:serverpod/serverpod.dart';
 
 import 'package:gcp_server/src/web/routes/root.dart';
-import 'package:serverpod_cloud_storage_gcp/serverpod_cloud_storage_gcp.dart'
-    as gcp;
+// import 'package:serverpod_cloud_storage_gcp/serverpod_cloud_storage_gcp.dart'
+// as gcp;
 
 import 'src/generated/protocol.dart';
 import 'src/generated/endpoints.dart';
@@ -31,22 +31,22 @@ void run(List<String> args) async {
     '/*',
   );
 
-  pod.addCloudStorage(gcp.GoogleCloudStorage(
-    serverpod: pod,
-    storageId: 'public',
-    public: true,
-    region: 'us',
-    bucket: 'storage.examplepod.com',
-    publicHost: 'storage.examplepod.com',
-  ));
+  // pod.addCloudStorage(gcp.GoogleCloudStorage(
+  //   serverpod: pod,
+  //   storageId: 'public',
+  //   public: true,
+  //   region: 'us',
+  //   bucket: 'storage.examplepod.com',
+  //   publicHost: 'storage.examplepod.com',
+  // ));
 
-  pod.addCloudStorage(gcp.GoogleCloudStorage(
-    serverpod: pod,
-    storageId: 'private',
-    public: false,
-    region: 'us',
-    bucket: 'private-storage.examplepod.com',
-  ));
+  // pod.addCloudStorage(gcp.GoogleCloudStorage(
+  //   serverpod: pod,
+  //   storageId: 'private',
+  //   public: false,
+  //   region: 'us',
+  //   bucket: 'private-storage.examplepod.com',
+  // ));
 
   // Configure storage
 
