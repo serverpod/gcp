@@ -172,43 +172,38 @@ packages:
   serverpod:
     dependency: "direct main"
     description:
-      name: serverpod
-      sha256: "01ec5ef2138d6c2413ec04e491ad9410dbe51aa1ebba09f67784bf0ce38008aa"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
+      path: "../vendor/serverpod/packages/serverpod"
+      relative: true
+    source: path
+    version: "1.0.0"
   serverpod_client:
     dependency: transitive
     description:
-      name: serverpod_client
-      sha256: "725f7e0d51b00043d50155a08dd3bcd0a0bae293305742bfc60c423e68186502"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
+      path: "../vendor/serverpod/packages/serverpod_client"
+      relative: true
+    source: path
+    version: "1.0.0"
   serverpod_serialization:
     dependency: transitive
     description:
-      name: serverpod_serialization
-      sha256: "47a73897f56f3d2fbf5694c571fb7d9dcaba772da848566baeb2b668715de266"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
+      path: "../vendor/serverpod/packages/serverpod_serialization"
+      relative: true
+    source: path
+    version: "1.0.0"
   serverpod_service_client:
     dependency: transitive
     description:
-      name: serverpod_service_client
-      sha256: "04f4db20f6b1e09fcfa1bbfbdc60f77ccd98b7cb49f694391d5ad28b1197940b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
+      path: "../vendor/serverpod/packages/serverpod_service_client"
+      relative: true
+    source: path
+    version: "1.0.0"
   serverpod_shared:
     dependency: transitive
     description:
-      name: serverpod_shared
-      sha256: "83d60863390f788a32598cceeec1f0e6c2f3f430e9c96d3bfae9d11c799abc2e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
+      path: "../vendor/serverpod/packages/serverpod_shared"
+      relative: true
+    source: path
+    version: "1.0.0"
   source_span:
     dependency: transitive
     description:
@@ -281,6 +276,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.0"
+  uuid:
+    dependency: transitive
+    description:
+      name: uuid
+      sha256: "648e103079f7c64a36dc7d39369cabb358d377078a051d6ae2ad3aa539519313"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.7"
   vm_service:
     dependency: transitive
     description:
