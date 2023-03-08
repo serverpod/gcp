@@ -14,7 +14,7 @@ on:
           - 'production'
 
 env:
-  PROJECT: terraform-test-377910 # TODO: update Google Cloud project id
+  PROJECT: serverpod-cloud-run # TODO: update Google Cloud project id
   REGION: us-central1 # TODO: update Cloud Run service region
   ZONE: us-central1-c # TODO: Template
 
