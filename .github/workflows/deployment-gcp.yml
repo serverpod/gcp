@@ -29,6 +29,12 @@ jobs:
         with:
           submodules: recursive
 
+      - name: List Directories
+        run: |
+          ls
+          ls vendor/
+          ls vendor/serverpod
+
       - name: Setting Target Mode from Input
         if: ${{ github.event.inputs.target != '' }}
         run: echo "TARGET=${{ github.event.inputs.target }}" >> $GITHUB_ENV
