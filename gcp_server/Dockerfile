@@ -3,7 +3,7 @@ FROM dart:stable AS build
 WORKDIR /app
 COPY . .
 
-RUN  dart pub get
+RUN dart pub get
 RUN dart compile exe bin/main.dart -o bin/main
 
 FROM busybox
@@ -19,6 +19,6 @@ COPY --from=build /app/web/ web/
 
 EXPOSE 8080
 EXPOSE 8081
-EXPOSE 8082 
+EXPOSE 8082
 
 CMD app/bin/main --mode $runmode --server-id $serverid

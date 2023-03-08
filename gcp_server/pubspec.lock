@@ -172,35 +172,35 @@ packages:
   serverpod:
     dependency: "direct main"
     description:
-      path: "../vendor/serverpod/packages/serverpod"
+      path: "vendor/serverpod/packages/serverpod"
       relative: true
     source: path
     version: "1.0.0"
   serverpod_client:
     dependency: transitive
     description:
-      path: "../vendor/serverpod/packages/serverpod_client"
+      path: "vendor/serverpod/packages/serverpod_client"
       relative: true
     source: path
     version: "1.0.0"
   serverpod_serialization:
     dependency: transitive
     description:
-      path: "../vendor/serverpod/packages/serverpod_serialization"
+      path: "vendor/serverpod/packages/serverpod_serialization"
       relative: true
     source: path
     version: "1.0.0"
   serverpod_service_client:
     dependency: transitive
     description:
-      path: "../vendor/serverpod/packages/serverpod_service_client"
+      path: "vendor/serverpod/packages/serverpod_service_client"
       relative: true
     source: path
     version: "1.0.0"
   serverpod_shared:
     dependency: transitive
     description:
-      path: "../vendor/serverpod/packages/serverpod_shared"
+      path: "vendor/serverpod/packages/serverpod_shared"
       relative: true
     source: path
     version: "1.0.0"
