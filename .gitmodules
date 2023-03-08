@@ -1,0 +1,3 @@
+[submodule "gcp_server/vendor/serverpod"]
+	path = gcp_server/vendor/serverpod
+	url = git@github.com:serverpod/serverpod.git
