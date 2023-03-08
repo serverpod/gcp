@@ -16,7 +16,7 @@ resource "google_sql_database_instance" "serverpod" {
 
     ip_configuration {
       ipv4_enabled    = true
-      private_network = google_compute_network.serverpod.id
+    #   private_network = google_compute_network.serverpod.id
     }
   }
 

@@ -1,3 +1,5 @@
+# Template for instances running Serverpod's Docker container.
+
 resource "google_compute_instance_template" "serverpod" {
   name        = "serverpod-${var.runmode}-template"
   description = "Instance template for Serverpod's Docker container."
@@ -8,7 +10,7 @@ resource "google_compute_instance_template" "serverpod" {
     source_image = "cos-cloud/cos-stable"
   }
 
-  # Specify the startup script to run the Docker container
+  # Startup script that runs the Serverpod Docker container.
   metadata_startup_script = <<-EOF
       #!/bin/bash
       useradd serverpod-user
@@ -19,10 +21,9 @@ resource "google_compute_instance_template" "serverpod" {
     EOF
 
   network_interface {
-    # network = "default"
     network = google_compute_network.serverpod.name
     access_config {
-      // Ephemeral public IP.
+      # Ephemeral public IP.
     }
   }
 
@@ -31,8 +32,10 @@ resource "google_compute_instance_template" "serverpod" {
     scopes = ["cloud-platform"]
   }
 
-  tags = ["serverpod-${var.runmode}-instance"]
+  tags = ["serverpod-${var.runmode}-instance", "serverpod-${var.runmode}-instance-ssh"]
 }
+
+# Instance group manager that runs the Serverpod Docker container, with autoscaling and health checks.
 
 resource "google_compute_instance_group_manager" "serverpod" {
   name = "serverpod-${var.runmode}-group"

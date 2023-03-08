@@ -1,79 +1,75 @@
-# resource "google_compute_global_forwarding_rule" "serverpod" {
-#   name                  = "serverpod-${var.runmode}-forwarding"
-#   ip_protocol           = "TCP"
-#   load_balancing_scheme = "EXTERNAL"
-#   port_range            = "443"
-#   target                = google_compute_target_https_proxy.serverpod.self_link
-# }
-
-# resource "google_compute_target_https_proxy" "serverpod" {
-#   name    = "serverpod-${var.runmode}-proxy"
-#   url_map = google_compute_url_map.serverpod.id
-#   ssl_certificates = [google_compute_managed_ssl_certificate.api.id]
-# }
+# Serverpod API.
 
 resource "google_compute_global_forwarding_rule" "api" {
   name                  = "serverpod-${var.runmode}-api"
   ip_protocol           = "TCP"
   load_balancing_scheme = "EXTERNAL"
-  port_range            = "80"
-  target                = google_compute_target_http_proxy.api.self_link
+  port_range            = "443"
+  target                = google_compute_target_https_proxy.api.self_link
 }
 
-resource "google_compute_target_http_proxy" "api" {
-  name    = "serverpod-${var.runmode}-proxy-api"
-  url_map = google_compute_url_map.serverpod.id
-  # ssl_certificates = [google_compute_managed_ssl_certificate.api.id]
+resource "google_compute_target_https_proxy" "api" {
+  name             = "serverpod-${var.runmode}-proxy-api"
+  url_map          = google_compute_url_map.serverpod.id
+  ssl_certificates = [google_compute_managed_ssl_certificate.api.id]
 }
+
+# Serverpod Insights.
 
 resource "google_compute_global_forwarding_rule" "insights" {
   name                  = "serverpod-${var.runmode}-insights"
   ip_protocol           = "TCP"
   load_balancing_scheme = "EXTERNAL"
-  port_range            = "80"
-  target                = google_compute_target_http_proxy.api.self_link
+  port_range            = "443"
+  target                = google_compute_target_https_proxy.api.self_link
 }
 
-resource "google_compute_target_http_proxy" "insights" {
-  name    = "serverpod-${var.runmode}-proxy-insights"
-  url_map = google_compute_url_map.serverpod.id
-  # ssl_certificates = [google_compute_managed_ssl_certificate.api.id]
+resource "google_compute_target_https_proxy" "insights" {
+  name             = "serverpod-${var.runmode}-proxy-insights"
+  url_map          = google_compute_url_map.serverpod.id
+  ssl_certificates = [google_compute_managed_ssl_certificate.insights.id]
 }
+
+# Web server.
 
 resource "google_compute_global_forwarding_rule" "web" {
   name                  = "serverpod-${var.runmode}-web"
   ip_protocol           = "TCP"
   load_balancing_scheme = "EXTERNAL"
-  port_range            = "80"
-  target                = google_compute_target_http_proxy.api.self_link
+  port_range            = "443"
+  target                = google_compute_target_https_proxy.api.self_link
 }
 
-resource "google_compute_target_http_proxy" "web" {
-  name    = "serverpod-${var.runmode}-proxy-web"
-  url_map = google_compute_url_map.serverpod.id
-  # ssl_certificates = [google_compute_managed_ssl_certificate.api.id]
+resource "google_compute_target_https_proxy" "web" {
+  name             = "serverpod-${var.runmode}-proxy-web"
+  url_map          = google_compute_url_map.serverpod.id
+  ssl_certificates = var.use_top_domain_for_web ? [google_compute_managed_ssl_certificate.web.id, google_compute_managed_ssl_certificate.web-top-domain[0].id] : [google_compute_managed_ssl_certificate.web.id]
 }
+
+# Storage.
 
 resource "google_compute_global_forwarding_rule" "storage" {
   name                  = "serverpod-${var.runmode}-storage"
   ip_protocol           = "TCP"
   load_balancing_scheme = "EXTERNAL"
-  port_range            = "80"
-  target                = google_compute_target_http_proxy.storage.self_link
+  port_range            = "443"
+  target                = google_compute_target_https_proxy.storage.self_link
 }
 
-resource "google_compute_target_http_proxy" "storage" {
-  name    = "serverpod-${var.runmode}-proxy-storage"
-  url_map = google_compute_url_map.serverpod.id
-  # ssl_certificates = [google_compute_managed_ssl_certificate.api.id]
+resource "google_compute_target_https_proxy" "storage" {
+  name             = "serverpod-${var.runmode}-proxy-storage"
+  url_map          = google_compute_url_map.serverpod.id
+  ssl_certificates = [google_compute_managed_ssl_certificate.storage.id]
 }
+
+# Load balancer.
 
 resource "google_compute_url_map" "serverpod" {
   name            = "serverpod-${var.runmode}-balancer"
   default_service = google_compute_backend_service.web.id
 
   host_rule {
-    hosts        = ["api.${var.top_domain}"]
+    hosts        = ["${var.subdomain_prefix}api.${var.top_domain}"]
     path_matcher = "api"
   }
 
@@ -83,7 +79,7 @@ resource "google_compute_url_map" "serverpod" {
   }
 
   host_rule {
-    hosts        = ["insights.${var.top_domain}"]
+    hosts        = ["${var.subdomain_prefix}insights.${var.top_domain}"]
     path_matcher = "insights"
   }
 
@@ -93,7 +89,7 @@ resource "google_compute_url_map" "serverpod" {
   }
 
   host_rule {
-    hosts        = ["storage.${var.top_domain}"]
+    hosts        = ["${var.subdomain_prefix}storage.${var.top_domain}"]
     path_matcher = "storage"
   }
 
@@ -102,6 +98,8 @@ resource "google_compute_url_map" "serverpod" {
     default_service = google_compute_backend_bucket.storage.id
   }
 }
+
+# Load balancer backends.
 
 resource "google_compute_backend_service" "api" {
   name     = "serverpod-${var.runmode}-backend-api"
@@ -136,8 +134,9 @@ resource "google_compute_backend_service" "insights" {
 }
 
 resource "google_compute_backend_service" "web" {
-  name     = "serverpod-${var.runmode}-backend-web"
-  protocol = "HTTP"
+  name       = "serverpod-${var.runmode}-backend-web"
+  protocol   = "HTTP"
+  enable_cdn = true
 
   backend {
     group           = google_compute_instance_group_manager.serverpod.instance_group

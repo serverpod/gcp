@@ -1,3 +1,5 @@
+# Private network.
+
 resource "google_compute_network" "serverpod" {
   name = "serverpod-${var.runmode}-network"
 }

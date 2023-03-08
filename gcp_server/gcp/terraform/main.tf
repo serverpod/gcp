@@ -16,7 +16,7 @@ provider "google" {
 }
 
 module "serverpod_production" {
-  source = "./modules/serverpod"
+  source = "./modules/google_cloud_serverpod_gcr"
 
   project = var.project
   runmode = "production"
@@ -32,24 +32,26 @@ module "serverpod_production" {
   service_account_email = var.service_account_email
 
   database_password = var.DATABASE_PASSWORD_PRODUCTION
+
+  enable_ssh = true
 }
 
-module "serverpod_staging" {
-  source = "./modules/serverpod"
-  count  = var.enable_staging ? 1 : 0
+# module "serverpod_staging" {
+#   source = "./modules/serverpod"
+#   count  = var.enable_staging ? 1 : 0
 
-  project = var.project
-  runmode = "staging"
+#   project = var.project
+#   runmode = "staging"
 
-  region = var.region
-  zone   = var.zone
+#   region = var.region
+#   zone   = var.zone
 
-  top_domain = "examplepod.com"
+#   top_domain = "examplepod.com"
 
-  autoscaling_min_size = var.autoscaling_min_size
-  autoscaling_max_size = var.autoscaling_max_size
+#   autoscaling_min_size = var.autoscaling_min_size
+#   autoscaling_max_size = var.autoscaling_max_size
 
-  service_account_email = var.service_account_email
+#   service_account_email = var.service_account_email
 
-  database_password = var.DATABASE_PASSWORD_STAGING
-}
+#   database_password = var.DATABASE_PASSWORD_STAGING
+# }
