@@ -78,14 +78,14 @@ jobs:
       - name: Push Docker image
         run: docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT }}/${{ env.REPOSITORY }}/$IMAGE_NAME
 
-      - name: Restart servers in instance group
-        run: |
-          gcloud compute instance-groups managed rolling-action replace serverpod-${{ env.TARGET }}-group \
-           --project=${{ env.PROJECT }} \
-           --replacement-method='substitute' \
-           --max-surge=1 \
-           --max-unavailable=1 \
-           --zone=${{ env.ZONE }}
+      # - name: Restart servers in instance group
+      #   run: |
+      #     gcloud compute instance-groups managed rolling-action replace serverpod-${{ env.TARGET }}-group \
+      #      --project=${{ env.PROJECT }} \
+      #      --replacement-method='substitute' \
+      #      --max-surge=1 \
+      #      --max-unavailable=1 \
+      #      --zone=${{ env.ZONE }}
 
       # --version=template=https://www.googleapis.com/compute/beta/projects/${{ env.PROJECT }}/global/instanceTemplates/serverpod-${{ env.TARGET }}-template \
       # - id: deploy
