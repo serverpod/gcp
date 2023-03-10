@@ -10,6 +10,8 @@ FROM busybox
 
 ENV runmode=development
 ENV serverid=default
+ENV logging=normal
+ENV role=monolith
 
 COPY --from=build /runtime/ /
 COPY --from=build /app/bin/main /app/bin/main
@@ -21,4 +23,4 @@ EXPOSE 8080
 EXPOSE 8081
 EXPOSE 8082
 
-CMD app/bin/main --mode $runmode --server-id $serverid
+CMD app/bin/main --mode $runmode --server-id $serverid --logging $logging --role $role
