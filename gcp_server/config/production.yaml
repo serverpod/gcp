@@ -27,7 +27,7 @@ webServer:
 
 # This is the database setup for your servers.
 database:
-  host: /cloudsql/serverpod-cloud-run:us-central1:serverpod-production-database/.s.PGSQL.5432
+  host: /cloudsql/serverpod-cloud-run:us-central1:serverpod-production-database #/.s.PGSQL.5432
   port: 5432
   name: serverpod
   user: postgres
